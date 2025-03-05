@@ -8,23 +8,35 @@
     <meta property="og:description" content="American Eagle CRJ700 Crashes into Potomac river near Reagan National Airport after colliding with military helicopter in D.C">
     <meta property="og:image" content="https://wslf-radio.neocities.org/WSLF_Transparent.png">
     <title>American Eagle CRJ700 Crashes into Potomac River near Bush National Airport after colliding with military helicopter in D.C</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
           margin: 0;
           padding: 0;
           font-family: 'Roboto', sans-serif;
-          background-color: #333;
+          background-color: #2a2a2a;
           color: #f0f0f0;
           line-height: 1.6;
+          overflow-x: hidden;
         }
 
         .menu-bar {
-          background-color: #444;
+          position: fixed;
+          top: 0;
+          left: 0;
+          background-color: #3a3a3a;
           display: flex;
-          justify-content: flex-start;
+          justify-content: space-between;
           align-items: center;
           padding: 10px;
           width: 100%;
+          z-index: 1000;
+          transition: top 0.3s ease-in-out;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+          opacity: 0;
+          transform: translateY(-20px);
+          animation: fadeInUp 0.8s ease-out forwards;
         }
 
         .menu-bar img {
@@ -35,29 +47,94 @@
         .menu-item {
           margin-right: 20px;
           cursor: pointer;
-          color: #f0f0f0;
+          color: #e0e0e0;
           text-decoration: none;
+          font-weight: 500;
+          padding: 8px 12px;
+          border-radius: 6px;
+          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .menu-item:hover {
-          text-decoration: underline;
+          background-color: #fff;
+          color: #000;
+        }
+
+        .menu-item i {
+          margin-right: 8px;
+        }
+
+        .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+
+        .dropdown-toggle {
+          margin-right: 20px;
+          cursor: pointer;
+          color: #e0e0e0;
+          text-decoration: none;
+          font-weight: 500;
+          padding: 8px 12px;
+          border-radius: 6px;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-toggle:hover {
+          background-color: #fff;
+          color: #000;
+        }
+
+        .dropdown-menu {
+          display: none;
+          position: absolute;
+          top: 100%;
+          right: 0;
+          background-color: #3a3a3a;
+          min-width: 200px;
+          border-radius: 6px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+          z-index: 1000;
+        }
+
+        .dropdown:hover .dropdown-menu {
+          display: block;
+        }
+
+        .dropdown-item {
+          color: #e0e0e0;
+          padding: 8px 12px;
+          text-decoration: none;
+          display: block;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+          background-color: #fff;
+          color: #000;
         }
 
         .content {
-          max-width: 800px;
-          margin: 20px auto;
-          padding: 20px;
-          background: rgba(0, 0, 0, 0.8);
-          border-radius: 8px;
+          max-width: 900px;
+          margin: 80px auto 30px auto;
+          padding: 30px;
+          background: rgba(0, 0, 0, 0.9);
+          border-radius: 10px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.8s ease-out 0.2s forwards;
         }
 
         .blog-banner {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: #555;
+          background: #3a3a3a;
           padding: 20px;
-          border-radius: 8px 8px 8px 8px;
+          border-radius: 10px;
+          margin-bottom: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .blog-banner img {
@@ -67,36 +144,54 @@
 
         .blog-banner h1 {
           margin: 0;
-          color: #f0f0f0;
-          font-size: 1.8em;
+          color: #e0e0e0;
+          font-size: 1.8rem;
+          font-weight: 500;
         }
 
         h1 {
           text-align: center;
           color: #f0f0f0;
+          font-size: 2.5rem;
+          font-weight: 500;
+          margin: 20px 0;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
         }
 
         h2 {
           text-align: center;
-          color: #f0f0f0;
+          color: #e0e0e0;
+          font-size: 1.8rem;
+          font-weight: 500;
+          margin: 20px 0;
         }
 
         h3 {
-          text-align: center;
-          color: #f0f0f0;
+          text-align: left;
+          color: #e0e0e0;
+          font-size: 1.4rem;
+          font-weight: 500;
+          margin: 15px 0;
+          border-left: 4px solid #555;
+          padding-left: 10px;
         }
 
         h4 {
-          text-align: center;
-          color: #f0f0f0;
+          text-align: left;
+          color: #d0d0d0;
+          font-size: 1.2rem;
+          font-weight: 500;
+          margin: 10px 0;
         }
-
-        
 
         .profile {
           display: flex;
           align-items: center;
-          margin-bottom: 10px;
+          justify-content: center;
+          margin: 20px 0;
+          padding: 10px;
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 6px;
         }
 
         .profile img {
@@ -109,59 +204,190 @@
 
         .profile a {
           text-decoration: none;
-          color: #ffffff;
-          display: flex;
-          align-items: center;
+          color: #4e9af1;
+          font-weight: 500;
+          padding: 4px 8px;
+          border-radius: 6px;
+          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .profile a:hover {
-          text-decoration: underline;
+          background-color: #fff;
+          color: #000;
         }
 
         .verification {
-            transform: scale(0.4);
-            transform-origin: center;
+          transform: scale(0.4);
+          transform-origin: center;
+          margin-left: 5px;
         }
 
         .thamfndate {
-          font-size: 0.8em;
-          color: #ccc;
+          font-size: 0.9rem;
+          color: #b0b0b0;
           margin-left: 10px;
         }
 
         .paragraph {
           margin: 20px 0;
+          color: #d0d0d0;
         }
 
         hr {
-    border: none; 
-    height: 2px;  
-    background-color: #888; 
-    margin: 20px 0; 
-    width: auto; 
-    margin-left: auto; 
-    margin-right: auto;
-    	}
+          border: none;
+          height: 1px;
+          background-color: #555;
+          margin: 20px 0;
+          width: 80%;
+          margin-left: auto;
+          margin-right: auto;
+        }
 
-		li {
-        margin: 20px auto;
+        li {
+          margin: 15px 0;
+          padding-left: 20px;
+          position: relative;
         }
-        
-        
+
+        li:before {
+          content: "•";
+          color: #4e9af1;
+          font-size: 1.2rem;
+          position: absolute;
+          left: 0;
+        }
+
         .bold {
-        font-weight: bold
+          font-weight: 700;
+          color: #e0e0e0;
         }
-        
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @media (max-width: 768px) {
+          .menu-bar img {
+            width: 40px;
+          }
+
+          .menu-item, .dropdown-toggle {
+            margin-right: 15px;
+            font-size: 14px;
+            padding: 6px 10px;
+          }
+
+          .dropdown-menu {
+            min-width: 180px;
+          }
+
+          .dropdown-item {
+            padding: 6px 10px;
+          }
+
+          .content {
+            margin: 70px 20px 20px 20px;
+            padding: 20px;
+          }
+
+          .blog-banner {
+            padding: 15px;
+          }
+
+          .blog-banner h1 {
+            font-size: 1.5rem;
+          }
+
+          h1 {
+            font-size: 2rem;
+          }
+
+          h2 {
+            font-size: 1.5rem;
+          }
+
+          h3 {
+            font-size: 1.2rem;
+          }
+
+          h4 {
+            font-size: 1rem;
+          }
+
+          .profile {
+            padding: 8px;
+          }
+
+          .thamfndate {
+            font-size: 0.85rem;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .menu-item, .dropdown-toggle {
+            margin-right: 10px;
+            font-size: 12px;
+            padding: 5px 8px;
+          }
+
+          .dropdown-menu {
+            min-width: 160px;
+          }
+
+          .dropdown-item {
+            padding: 5px 8px;
+          }
+
+          .content {
+            padding: 15px;
+          }
+
+          .blog-banner {
+            flex-direction: column;
+            text-align: center;
+            padding: 10px;
+          }
+
+          .blog-banner img {
+            margin-bottom: 10px;
+          }
+
+          h1 {
+            font-size: 1.6rem;
+          }
+
+          h2 {
+            font-size: 1.3rem;
+          }
+
+          h3 {
+            font-size: 1.1rem;
+          }
+        }
     </style>
 </head>
 <body>
   <div class="menu-bar">
-    <img src="WSLF.png" alt="Logo">
-    <div class="menu-item" onclick="window.location.href='about'">About</div>
-    <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org'">🎵 WSLF</div>
-    <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/kec94'">⛅ KEC94</div>
-    <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wwg41'">⛅ WWG41</div>
-    <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wxl87'">⛅ WXL87</div>
+    <div style="display: flex; align-items: center;">
+      <img src="WSLF.png" alt="Logo">
+      <div class="menu-item" onclick="window.location.href='about'"><i class="fas fa-info-circle"></i> About</div>
+      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org'"><i class="fas fa-music"></i> WSLF</div>
+      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/kec94'"><i class="fas fa-cloud-sun"></i> KEC94</div>
+      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wwg41'"><i class="fas fa-cloud-sun"></i> WWG41</div>
+      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wxl87'"><i class="fas fa-cloud-sun"></i> WXL87</div>
+    </div>
+    <div class="dropdown">
+      <div class="dropdown-toggle"><i class="fas fa-bars"></i> More</div>
+      <div class="dropdown-menu">
+        <div class="dropdown-item" onclick="window.location.href='status'"><i class="fas fa-signal"></i> Stream Status</div>
+        <div class="dropdown-item" onclick="window.location.href='blog'"><i class="fas fa-blog"></i> Blog</div>
+        <div class="dropdown-item" onclick="window.location.href='coming-soon'"><i class="fas fa-clock"></i> Coming Soon</div>
+        <div class="dropdown-item" onclick="window.location.href='placeholder'"><i class="fas fa-plus"></i> Placeholder</div>
+      </div>
+    </div>
   </div>
 
   <div class="content">
@@ -196,3 +422,4 @@
   </div>
 </body>
 </html>
+
