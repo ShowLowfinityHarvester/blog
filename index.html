@@ -55,6 +55,13 @@
           transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        .menu-items {
+          display: flex;
+          align-items: center;
+          flex-wrap: nowrap;
+          overflow: hidden;
+        }
+
         .menu-item:hover {
           background-color: #fff;
           color: #000;
@@ -336,23 +343,25 @@
 <body>
   <div class="menu-bar">
     <div style="display: flex; align-items: center;">
-      <img src="WSLF.png" alt="Logo">
-      <div class="menu-item" onclick="window.location.href='about'"><i class="fas fa-info-circle"></i> About</div>
-      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org'"><i class="fas fa-music"></i> WSLF</div>
-      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/kec94'"><i class="fas fa-cloud-sun"></i> KEC94</div>
-      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wwg41'"><i class="fas fa-cloud-sun"></i> WWG41</div>
-      <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wxl87'"><i class="fas fa-cloud-sun"></i> WXL87</div>
+      <img src="WSLF.png" alt="WSLF Logo">
+      <div class="menu-items">
+        <div class="menu-item" onclick="window.location.href='about'"><i class="fas fa-info-circle"></i> About</div>
+        <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org'"><i class="fas fa-music"></i> WSLF</div>
+        <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/kec94'"><i class="fas fa-cloud-sun"></i> KEC94</div>
+        <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wwg41'"><i class="fas fa-cloud-sun"></i> WWG41</div>
+        <div class="menu-item" onclick="window.location.href='https://www.wslfradio.org/wxl87'"><i class="fas fa-cloud-sun"></i> WXL87</div>
+      </div>
     </div>
     <div class="dropdown">
       <div class="dropdown-toggle"><i class="fas fa-bars"></i> More</div>
-      <div class="dropdown-menu">
-        <div class="dropdown-item" onclick="window.location.href='status'"><i class="fas fa-signal"></i> Stream Status</div>
-        <div class="dropdown-item" onclick="window.location.href='blog'"><i class="fas fa-blog"></i> Blog</div>
-        <div class="dropdown-item" onclick="window.location.href='coming-soon'"><i class="fas fa-clock"></i> Coming Soon</div>
-        <div class="dropdown-item" onclick="window.location.href='placeholder'"><i class="fas fa-plus"></i> Placeholder</div>
+      <div class="dropdown-menu" id="dropdown-menu">
+        <div class="dropdown-item static-item" onclick="window.location.href='https://www.wslfradio.org/Status'"><i class="fas fa-signal"></i> Stream Status</div>
+        <div class="dropdown-item static-item" onclick="window.location.href='https://www.wslfradio.org/blog'"><i class="fas fa-blog"></i> Blog</div>
+        <div class="dropdown-item static-item" onclick="window.location.href='coming-soon'"><i class="fas fa-clock"></i> Coming Soon</div>
+        <div class="dropdown-item static-item" onclick="window.location.href='placeholder'"><i class="fas fa-plus"></i> Placeholder</div>
       </div>
     </div>
-  </div>
+</div>
 
   <div class="content">
     <h1>WSLF Radio Blog - All Posts</h1>
@@ -384,5 +393,51 @@
       </div>
     </div>
   </div>
+
+  <script>
+    // this code is for mobile users and those with tiny screens, as if a pc screen is small these days
+    const menuItemsContainer = document.querySelector('.menu-items');
+    const dropdownMenu = document.querySelector('#dropdown-menu');
+    const menuItems = Array.from(document.querySelectorAll('.menu-item'));
+    const staticDropdownItems = Array.from(document.querySelectorAll('.dropdown-item.static-item'));
+    let movedItems = new Map(); // track moved items by oneclick attributes
+
+    function adjustMenuForMobile() {
+      const menuBarRect = document.querySelector('.menu-bar').getBoundingClientRect();
+      const dropdownRect = document.querySelector('.dropdown').getBoundingClientRect();
+      const maxVisibleX = menuBarRect.width - dropdownRect.width - 20; // dropdown width and padding
+
+      // if item fits, restore it back and get rid of clone because we do not want duplicates here
+      movedItems.forEach((clone, onclick) => {
+        const originalItem = menuItems.find(item => item.getAttribute('onclick') === onclick);
+        if (originalItem) {
+          const cloneRect = clone.getBoundingClientRect();
+          if (cloneRect.right <= maxVisibleX && cloneRect.left >= 0) {
+            menuItemsContainer.appendChild(originalItem);
+            clone.remove();
+            movedItems.delete(onclick);
+          }
+        }
+      });
+
+      // items go into dropdowm menu if a button is not visible
+      menuItems.forEach(item => {
+        const itemRect = item.getBoundingClientRect();
+        if (itemRect.right > maxVisibleX || itemRect.left < 0) {
+          const clone = item.cloneNode(true);
+          clone.classList.add('dropdown-item');
+          clone.classList.remove('menu-item');
+          dropdownMenu.appendChild(clone);
+          movedItems.set(item.getAttribute('onclick'), clone);
+          item.remove();
+        }
+      });
+    }
+
+    // js runs for loading and resizing
+    window.addEventListener('load', adjustMenuForMobile);
+    window.addEventListener('resize', adjustMenuForMobile);
+  </script>
+
 </body>
 </html>
